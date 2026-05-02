@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados: IA en la Educación</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #1a73e8;
+            --sidebar-bg: #f8f9fa;
+            --text-color: #333;
+            --bg-color: #ffffff;
+            --border-color: #dadce0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            display: flex;
+            background-color: var(--bg-color);
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 250px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            padding-top: 20px;
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            border-left: 4px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background-color: #e8f0fe;
+        }
+
+        .nav-link.active {
+            background-color: #e8f0fe;
+            border-left-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            padding: 40px;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 { font-size: 2rem; color: var(--primary-color); margin-bottom: 10px; }
+        h2 { font-size: 1.5rem; color: var(--primary-color); border-bottom: 2px solid #e8f0fe; padding-bottom: 10px; margin-top: 30px;}
+        h3 { font-size: 1.2rem; color: #444; margin-top: 20px; }
+        p { line-height: 1.6; margin-bottom: 15px; color: #5f6368; }
+        
+        .author-info { font-style: italic; color: #80868b; margin-bottom: 30px; }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f1f3f4;
+            font-weight: 500;
+        }
+
+        /* Tabs for Questions */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            background-color: white;
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #5f6368;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .question-container {
+            display: none;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .question-container.active {
+            display: block;
+        }
+
+        .chart-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 30px auto;
+        }
+
+        .analysis-box {
+            background-color: #e8f0fe;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            border-radius: 0 4px 4px 0;
+            margin-top: 20px;
+        }
+        .analysis-box p { margin: 0; color: #1a73e8; font-weight: 500; }
+        .analysis-text { color: #333 !important; font-weight: 400 !important; margin-top: 8px !important;}
+
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Reporte Académico</h2>
+        <a class="nav-link active" onclick="showSection('intro', this)">Introducción</a>
+        <a class="nav-link" onclick="showSection('marco', this)">Marco Teórico</a>
+        <a class="nav-link" onclick="showSection('metodologia', this)">Metodología</a>
+        <a class="nav-link" onclick="showSection('resultados', this)">Resultados y Análisis</a>
+        <a class="nav-link" onclick="showSection('discusion', this)">Discusión</a>
+    </div>
+
+    <div class="main-content">
+        
+        <div id="intro" class="section active">
+            <h1>Percepciones y preparación para el uso responsable de la IA</h1>
+            <p class="author-info">Unidad Educativa “Eugenio Espejo”, Cuenca–Ecuador | Autor: VICTOR AYORA | Febrero de 2026</p>
+            
+            <h2>Introducción</h2>
+            <p>En los últimos años, la inteligencia artificial (IA)—y, en particular, la IA generativa—ha ampliado de forma notable las posibilidades para apoyar el aprendizaje: búsqueda y síntesis de información, tutorías personalizadas, generación de ejemplos, retroalimentación y apoyo a la escritura académica.</p>
+            <p>Sin embargo, su adopción educativa también introduce riesgos relevantes, como sesgos, desinformación, uso indebido de datos, dependencia tecnológica y prácticas académicas deshonestas, por lo que se vuelve imprescindible promover un uso responsable, ético y críticamente informado (UNESCO, 2021, 2023).</p>
+            <p>En el contexto escolar, la discusión no se centra únicamente en “usar” o “prohibir” la IA, sino en construir competencias para que estudiantes y docentes puedan aprovecharla con seguridad y sentido pedagógico. Organismos internacionales señalan que la digitalización y tecnologías como la IA influyen en la enseñanza, la evaluación y la organización escolar, lo que exige capacidades institucionales, formación y marcos de gobernanza.</p>
+
+            <h2>Antecedentes</h2>
+            <p>El avance de la IA en educación se vincula con la expansión de herramientas de analítica del aprendizaje, sistemas tutores inteligentes y, más recientemente, modelos generativos capaces de producir texto, código e imágenes. La literatura de política educativa subraya que estas tecnologías pueden aportar valor cuando se integran con objetivos pedagógicos claros, acompañamiento docente y evaluación adecuada.</p>
+            <p>En Ecuador, el Bachillerato General Unificado constituye el tercer nivel de educación escolarizada y busca una formación integral e interdisciplinaria. En este marco, comprender cómo los estudiantes perciben la IA y su preparación para usarla responsablemente resulta relevante para diseñar estrategias formativas pertinentes.</p>
+        </div>
+
+        <div id="marco" class="section">
+            <h1>Marco Teórico</h1>
+            <h3>Inteligencia artificial y aprendizaje</h3>
+            <p>La IA puede entenderse como un conjunto de sistemas computacionales capaces de realizar tareas que normalmente requieren inteligencia humana, como reconocer patrones, tomar decisiones o generar contenido. En educación, su potencial se asocia a apoyos personalizados, automatización de tareas rutinarias y nuevas formas de interacción con contenidos y recursos.</p>
+            
+            <h3>Uso responsable y ética</h3>
+            <p>El uso responsable implica considerar principios de transparencia, equidad, privacidad, seguridad y supervisión humana. La Recomendación sobre la Ética de la IA de la UNESCO enfatiza la protección de los derechos humanos y la dignidad. En el ámbito escolar, estos principios se traducen en citar adecuadamente, evitar la sustitución de la producción propia y proteger datos.</p>
+            
+            <h3>Competencia digital y alfabetización en IA</h3>
+            <p>La competencia digital no se limita al manejo instrumental de herramientas: incluye evaluación crítica de información, creación de contenido, seguridad y bienestar digital. El marco DigComp 2.2 incorpora ejemplos vinculados a tecnologías emergentes como la IA.</p>
+        </div>
+
+        <div id="metodologia" class="section">
+            <h1>Metodología</h1>
+            <p><strong>Pregunta de investigación:</strong> ¿Cómo se distribuyen las percepciones y el nivel de preparación de estudiantes de Bachillerato de la Unidad Educativa “Eugenio Espejo” respecto al uso responsable de la inteligencia artificial en su aprendizaje?</p>
+            <ul>
+                <li><strong>Objetivo general:</strong> Describir las percepciones y el nivel de preparación para el uso responsable y ético de herramientas de inteligencia artificial.</li>
+                <li><strong>Diseño:</strong> Enfoque cuantitativo, con alcance descriptivo y diseño no experimental de corte transversal.</li>
+                <li><strong>Población y muestra:</strong> Muestra de n = 172 estudiantes de BGU que respondieron voluntariamente el cuestionario en línea (febrero de 2026).</li>
+                <li><strong>Instrumento:</strong> Cuestionario tipo encuesta compuesto por variables sociodemográficas y nueve ítems en escala tipo Likert de cinco categorías.</li>
+            </ul>
+        </div>
+
+        <div id="resultados" class="section">
+            <h1>Resultados y Análisis</h1>
+            <p>Seleccione una pregunta para visualizar su tabla de frecuencias, gráfica interactiva y el análisis interpretativo correspondiente.</p>
+            
+            <div class="tabs" id="questionTabs">
+                </div>
+
+            <div id="questionsContainer">
+                </div>
+        </div>
+
+        <div id="discusion" class="section">
+            <h1>Discusión (Síntesis Interpretativa)</h1>
+            <p>Los resultados muestran que, junto con un interés moderado por el uso de IA y el reconocimiento de su potencial, coexisten dudas sobre la preparación ética y la formación específica recibida. Este hallazgo es consistente con recomendaciones internacionales que subrayan la necesidad de fortalecer la alfabetización digital y en IA.</p>
+            <p>Asimismo, la percepción sobre el posible reemplazo del rol docente por IA tiende a inclinarse hacia el desacuerdo, lo que sugiere que los estudiantes aún valoran la mediación humana en procesos educativos. Esta lectura se alinea con la visión de gobernanza centrada en el ser humano.</p>
+            <p>En términos prácticos, la institución podría priorizar: (a) lineamientos de integridad académica para uso de IA, (b) talleres de alfabetización informacional, (c) formación docente para diseñar actividades compatibles con IA y (d) mecanismos de apoyo institucional para una implementación gradual.</p>
+        </div>
+
+    </div>
+
+    <script>
+        // Data for the 12 questions
+        const questionsData = [
+            {
+                id: 1, title: "Género del encuestado",
+                labels: ["Femenino", "Masculino"],
+                data: [83, 89],
+                percentages: ["48.26%", "51.74%"],
+                analysis: "La muestra presenta una distribución sumamente equitativa y balanceada entre ambos géneros, con una muy ligera predominancia de estudiantes masculinos (51.74%)."
+            },
+            {
+                id: 2, title: "Tipo de colegio",
+                labels: ["PÚBLICO", "PRIVADO", "FISCOMISIONAL"],
+                data: [46, 44, 82],
+                percentages: ["26.74%", "25.58%", "47.67%"],
+                analysis: "Casi la mitad de los participantes (47.67%) provienen de la educación fiscomisional, lo que refleja la naturaleza administrativa de la institución encuestada."
+            },
+            {
+                id: 3, title: "Grado de bachillerato (BGU)",
+                labels: ["PRIMERO DE BACH.", "SEGUNDO DE BACH.", "TERCERO DE BACH."],
+                data: [38, 94, 40],
+                percentages: ["22.09%", "54.65%", "23.26%"],
+                analysis: "Existe una concentración mayoritaria de respuestas en el Segundo de Bachillerato (54.65%), mientras que los extremos mantienen una participación similar."
+            },
+            {
+                id: 4, title: "Entiendo que soy responsable de los posibles usos que le doy a la IA",
+                labels: ["En desacuerdo total", "En desacuerdo", "Neutral", "De acuerdo", "Totalmente de acuerdo"],
+                data: [25, 46, 34, 41, 26],
+                percentages: ["14.53%", "26.74%", "19.77%", "23.84%", "15.12%"],
+                analysis: "Existe una fragmentación notable. Mientras un 41.28% en total no se considera responsable, un 38.95% sí lo hace, sugiriendo una falta de claridad normativa ética."
+            },
+            {
+                id: 5, title: "La capacitación y el ejemplo de expertos podrían mejorar mi uso de IA",
+                labels: ["En desacuerdo total", "En desacuerdo", "Neutral", "De acuerdo", "Totalmente de acuerdo"],
+                data: [24, 41, 43, 41, 23],
+                percentages: ["13.95%", "23.84%", "25.00%", "23.84%", "13.37%"],
+                analysis: "Las opiniones están divididas casi simétricamente. Este escepticismo sobre el valor de la capacitación puede deberse a que los jóvenes sienten que dominan estas tecnologías de forma autodidacta."
+            },
+            {
+                id: 6, title: "He recibido formación específica sobre el uso de IA en la educación",
+                labels: ["En desacuerdo total", "En desacuerdo", "Neutral", "De acuerdo", "Totalmente de acuerdo"],
+                data: [19, 38, 60, 40, 15],
+                percentages: ["11.05%", "22.09%", "34.88%", "23.26%", "8.72%"],
+                analysis: "El alto nivel de neutralidad (34.88%) indica confusión sobre qué constituye una 'formación en IA'. Las intervenciones de los docentes pueden ser percibidas como esporádicas."
+            },
+            {
+                id: 7, title: "El uso de IA en mi aprendizaje me resulta emocionante o interesante",
+                labels: ["En desacuerdo total", "En desacuerdo", "Neutral", "De acuerdo", "Totalmente de acuerdo"],
+                data: [18, 42, 50, 46, 16],
+                percentages: ["10.47%", "24.42%", "29.07%", "26.74%", "9.30%"],
+                analysis: "Los datos muestran que un 34.88% no encuentra la IA emocionante, empatando con los que sí (36.05%). Para muchos, la IA se ha normalizado perdiendo el factor 'novedad'."
+            },
+            {
+                id: 8, title: "Mis experiencias con TIC afectan mi disposición hacia la IA",
+                labels: ["En desacuerdo total", "En desacuerdo", "Neutral", "De acuerdo", "Totalmente de acuerdo"],
+                data: [18, 45, 46, 38, 25],
+                percentages: ["10.47%", "26.16%", "26.74%", "22.09%", "14.53%"],
+                analysis: "Existe un empate perfecto entre quienes vinculan sus experiencias previas con TIC (36.63%) y quienes no (36.63%). La IA se percibe como un fenómeno tecnológico independiente."
+            },
+            {
+                id: 9, title: "Mis experiencias anteriores con IA influyen en mi actitud actual",
+                labels: ["En desacuerdo total", "En desacuerdo", "Neutral", "De acuerdo", "Totalmente de acuerdo"],
+                data: [17, 49, 37, 45, 24],
+                percentages: ["9.88%", "28.49%", "21.51%", "26.16%", "13.95%"],
+                analysis: "A diferencia de las TIC en general, un grupo mayor (40.12%) reconoce que su contacto previo directo con IA moldea su percepción actual fuertemente."
+            },
+            {
+                id: 10, title: "Creo que es probable que la IA pueda reemplazar a los profesores",
+                labels: ["En desacuerdo total", "En desacuerdo", "Neutral", "De acuerdo", "Totalmente de acuerdo"],
+                data: [21, 52, 44, 38, 17],
+                percentages: ["12.21%", "30.23%", "25.58%", "22.09%", "9.88%"],
+                analysis: "Un 42.44% está en desacuerdo con esta afirmación, lo que indica que los estudiantes valoran la mediación pedagógica humana y ven a la IA solo como un complemento."
+            },
+            {
+                id: 11, title: "Me siento preparado para usar de forma ética la información generada",
+                labels: ["En desacuerdo total", "En desacuerdo", "Neutral", "De acuerdo", "Totalmente de acuerdo"],
+                data: [16, 40, 50, 44, 22],
+                percentages: ["9.30%", "23.26%", "29.07%", "25.58%", "12.79%"],
+                analysis: "Solo un 38.37% se siente preparado éticamente. Las respuestas neutrales o negativas alertan sobre la necesidad urgente de alfabetización ética en la institución."
+            },
+            {
+                id: 12, title: "Mi institución apoya la implementación de IA en mis actividades",
+                labels: ["En desacuerdo total", "En desacuerdo", "Neutral", "De acuerdo", "Totalmente de acuerdo"],
+                data: [20, 41, 44, 48, 19],
+                percentages: ["11.63%", "23.84%", "25.58%", "27.91%", "11.05%"],
+                analysis: "La percepción está dividida (38.95% a favor vs. 35.47% en contra). Esto sugiere que las iniciativas institucionales no se comunican de manera uniforme a todo el alumnado."
+            }
+        ];
+
+        // UI Navigation
+        function showSection(sectionId, element) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        // Initialize Results Section
+        function initResults() {
+            const tabsContainer = document.getElementById('questionTabs');
+            const questionsContainer = document.getElementById('questionsContainer');
+
+            questionsData.forEach((q, index) => {
+                // Tab button
+                const btn = document.createElement('button');
+                btn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
+                btn.innerText = `P${q.id}`;
+                btn.onclick = () => showQuestion(q.id, btn);
+                tabsContainer.appendChild(btn);
+
+                // Question Content
+                let rowsHTML = '';
+                q.labels.forEach((label, i) => {
+                    rowsHTML += `<tr><td>${label}</td><td>${q.data[i]}</td><td>${q.percentages[i]}</td></tr>`;
+                });
+
+                const html = `
+                    <div id="q${q.id}" class="question-container ${index === 0 ? 'active' : ''}">
+                        <h2>Pregunta ${q.id}: ${q.title}</h2>
+                        
+                        <table>
+                            <thead>
+                                <tr><th>Categoría</th><th>Frecuencia</th><th>Porcentaje</th></tr>
+                            </thead>
+                            <tbody>${rowsHTML}</tbody>
+                        </table>
+
+                        <div class="chart-container">
+                            <canvas id="chart${q.id}"></canvas>
+                        </div>
+
+                        <div class="analysis-box">
+                            <p>Análisis Interpretativo</p>
+                            <p class="analysis-text">${q.analysis}</p>
+                        </div>
+                    </div>
+                `;
+                questionsContainer.innerHTML += html;
+            });
+
+            // Initialize Charts
+            questionsData.forEach(q => {
+                const ctx = document.getElementById(`chart${q.id}`).getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: q.labels,
+                        datasets: [{
+                            label: 'Frecuencia',
+                            data: q.data,
+                            backgroundColor: '#1a73e8',
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            });
+        }
+
+        function showQuestion(id, btnElement) {
+            document.querySelectorAll('.question-container').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(`q${id}`).classList.add('active');
+            btnElement.classList.add('active');
+        }
+
+        // Run setup
+        window.onload = initResults;
+    </script>
+</body>
+</html>
